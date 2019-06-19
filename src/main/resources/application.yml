@@ -1,0 +1,19 @@
+spring:
+  profile: container
+  datasource:
+    url: jdbc:mysql://localhost:3306/tmdb?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: tm@123
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+      
+server.port: 9000
+
+
+
+
+
