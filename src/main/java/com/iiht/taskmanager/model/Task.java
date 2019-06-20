@@ -24,10 +24,8 @@ public class Task implements Comparable<Task> {
 	@Column(name = "priority")
 	private int priority;
 
-
-
-	@Column(name = "parentName")
-	private String parentName;
+	@Column(name = "parentId")
+	private String parentId;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "startDate")
@@ -68,11 +66,11 @@ public class Task implements Comparable<Task> {
 	}
 
 	public String getParentTask() {
-		return parentName;
+		return parentId;
 	}
 
 	public void setParentTask(String parentTask) {
-		this.parentName = parentTask;
+		this.parentId = parentTask;
 	}
 
 	public Date getStartDate() {
@@ -102,7 +100,7 @@ public class Task implements Comparable<Task> {
 
 	@Override
 	public String toString() {
-		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", priority=" + priority + ", parentName=" + parentName
+		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", priority=" + priority + ", parentId=" + parentId
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 

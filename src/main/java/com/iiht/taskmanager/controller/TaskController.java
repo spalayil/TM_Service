@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +28,11 @@ public class TaskController {
 
 	@PostMapping("/task/create")
 	public ResponseEntity<Object> addTask(@RequestBody Task task) {
-		
-		System.out.print("*************************"+task.toString());
 		if(task==null || task.getStartDate()==null || task.getEndDate()==null )
 		{
-			System.out.print("**********Inside bad req");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}else {
-			System.out.print("*****Inside good req");
+		
 		taskService.addTask(task);
 		     return  new ResponseEntity<Object>(task, HttpStatus.CREATED);
 	}
@@ -62,18 +60,18 @@ public class TaskController {
 	}
 	
 	@PutMapping("/task/endtask/{id}")
-	public ResponseEntity<Object> endTask(@PathVariable("id") long id, @RequestBody Task task) {
-		Task tk = taskService.getTaskById(id);
-		tk.setTaskId(task.getTaskId());
-		tk.setTask(task.getTask());
-		tk.setPriority(task.getPriority());
-		tk.setParentTask(task.getParentTask());
-		tk.setStartDate(task.getStartDate());
-		tk.setEndDate(task.getEndDate());
+	public ResponseEntity<Object> endTask(@PathVariable("id") long id) {
+		Task tk = taskService.getTaskById(id);		
 		tk.setActiveTask(true);
 		taskService.updateTask(tk);
-		System.out.println(task);
-		return new ResponseEntity<Object>(tk, HttpStatus.OK);
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	
+	@DeleteMapping("/task/deletetask/{id}")
+	public ResponseEntity<Object> deleteTask(@PathVariable("id") long id) {
+		taskService.deleteTask(id);
+		return new ResponseEntity<Object>( HttpStatus.OK);
 	}
 
 }

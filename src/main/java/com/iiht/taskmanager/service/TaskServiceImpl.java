@@ -32,4 +32,11 @@ public class TaskServiceImpl implements TaskService  {
 		
 		return  taskRepository.findBytaskId(id);
 	}
+	
+	public void deleteTask(long id) {
+		
+		  taskRepository.deleteById(id);
+	}
+	
+	
 }
