@@ -1,4 +1,4 @@
-package com.iiht.taskmanager;
+package com.cognizant.tm;
 
 import org.apache.log4j.BasicConfigurator;
 import org.springframework.boot.SpringApplication;

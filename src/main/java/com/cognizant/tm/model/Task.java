@@ -1,4 +1,4 @@
-package com.iiht.taskmanager.model;
+package com.cognizant.tm.model;
 
 import java.util.Date;
 
@@ -24,8 +24,8 @@ public class Task implements Comparable<Task> {
 	@Column(name = "priority")
 	private int priority;
 
-	@Column(name = "parentId")
-	private String parentId;
+	@Column(name = "parentName")
+	private String parentName;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "startDate")
@@ -40,7 +40,6 @@ public class Task implements Comparable<Task> {
 
 	
 
-
 	public long getTaskId() {
 		return taskId;
 	}
@@ -49,12 +48,12 @@ public class Task implements Comparable<Task> {
 		this.taskId = taskId;
 	}
 
-	public String getTask() {
+	public String getTaskName() {
 		return taskName;
 	}
 
-	public void setTask(String task) {
-		this.taskName = task;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
 	public int getPriority() {
@@ -65,12 +64,12 @@ public class Task implements Comparable<Task> {
 		this.priority = priority;
 	}
 
-	public String getParentTask() {
-		return parentId;
+	public String getParentName() {
+		return parentName;
 	}
 
-	public void setParentTask(String parentTask) {
-		this.parentId = parentTask;
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
 
 	public Date getStartDate() {
@@ -89,18 +88,18 @@ public class Task implements Comparable<Task> {
 		this.endDate = endDate;
 	}
 
-	public boolean isActiveTask() {
+	public boolean isStatus() {
 		return status;
 	}
 
-	public void setActiveTask(boolean activeTask) {
-		this.status = activeTask;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 	
 
 	@Override
 	public String toString() {
-		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", priority=" + priority + ", parentId=" + parentId
+		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", priority=" + priority + ", parentName=" + parentName
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 

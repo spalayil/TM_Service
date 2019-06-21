@@ -1,8 +1,10 @@
-package com.iiht.taskmanager.service;
+package com.cognizant.tm.service;
 
 import java.util.List;
 
-import com.iiht.taskmanager.model.Task;
+import com.cognizant.tm.model.Task;
+
+
 
 public interface TaskService  {
 	public Task addTask(Task task);

@@ -1,4 +1,4 @@
-package com.iiht.taskmanager;
+package com.cognizant.tm;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

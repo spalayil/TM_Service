@@ -1,4 +1,4 @@
-package com.iiht.taskmanager.Exception;
+package com.cognizant.tm.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,4 +1,4 @@
-package com.iiht.taskmanager;
+package com.cognizant.tm;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -33,11 +33,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.cognizant.tm.controller.TmController;
+import com.cognizant.tm.exception.NoValuesFoundException;
+import com.cognizant.tm.model.Task;
+import com.cognizant.tm.service.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iiht.taskmanager.Exception.NoValuesFoundException;
-import com.iiht.taskmanager.controller.TaskController;
-import com.iiht.taskmanager.model.Task;
-import com.iiht.taskmanager.service.TaskService;
+
+
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration
@@ -51,7 +53,7 @@ public class UTTaskController {
 	private MockMvc mockMvc;
 
 	@InjectMocks
-	private TaskController taskcontroller;
+	private TmController taskcontroller;
 
 	@Before
 	public void init() {
@@ -69,19 +71,19 @@ public class UTTaskController {
 		Task task1 = new Task();
 		Task task2 = new Task();
 		task1.setTaskId(1);
-		task1.setTask("Task1");
+		task1.setTaskName("Task1");
 		task1.setPriority(12);
-		task1.setParentTask("parentask1");
+		task1.setParentName("parentask1");
 		task1.setStartDate(edate1);
 		task1.setEndDate(sdate1);
-		task1.setActiveTask(true);
+		task1.setStatus(true);
 		task2.setTaskId(2);
-		task2.setTask("Task2");
+		task2.setTaskName("Task2");
 		task2.setPriority(13);
-		task2.setParentTask("parentask2");
+		task2.setParentName("parentask2");
 		task2.setStartDate(edate2);
 		task2.setEndDate(sdate2);
-		task2.setActiveTask(false);
+		task2.setStatus(false);
 
 		List<Task> types = new ArrayList<Task>();
 		types.add(task1);
@@ -109,12 +111,12 @@ public class UTTaskController {
 		Date edate = dformat.parse("12-01-2018");
 		Task object = new Task();
 		object.setTaskId(4);
-		object.setTask("Task1");
+		object.setTaskName("Task1");
 		object.setPriority(12);
-		object.setParentTask("parentask1");
+		object.setParentName("parentask1");
 		object.setStartDate(edate);
 		object.setEndDate(sdate);
-		object.setActiveTask(true);
+		object.setStatus(true);
 		when(tservice.addTask(object)).thenReturn(object);
 		mockMvc.perform(
 				post("/api/task/create").contentType(APPLICATION_JSON_UTF8).content(TestUtil.ObjecttoJSON(object)))
@@ -129,12 +131,12 @@ public class UTTaskController {
 	public void testPostTaskExceptin() throws Exception {
 		Task object = new Task();
 		object.setTaskId(4);
-		object.setTask("Task1");
+		object.setTaskName("Task1");
 		object.setPriority(12);
-		object.setParentTask("parentask1");
+		object.setParentName("parentask1");
 		object.setStartDate(null);
 		object.setEndDate(null);
-		object.setActiveTask(true);
+		object.setStatus(true);
 		when(tservice.addTask(object)).thenThrow(new NoValuesFoundException());
 		mockMvc.perform(post("/api/task/create").contentType(APPLICATION_JSON_UTF8).content(asJsonString(object)))
 				.andExpect(status().isBadRequest()).andDo(print());
@@ -158,19 +160,19 @@ public class UTTaskController {
 		Task task1 = new Task();
 		Task task2 = new Task();
 		task1.setTaskId(1);
-		task1.setTask("Task1");
+		task1.setTaskName("Task1");
 		task1.setPriority(12);
-		task1.setParentTask("parentask1");
+		task1.setParentName("parentask1");
 		task1.setStartDate(edate1);
 		task1.setEndDate(sdate1);
-		task1.setActiveTask(false);
+		task1.setStatus(false);
 		task2.setTaskId(1);
-		task2.setTask("Task1");
+		task2.setTaskName("Task1");
 		task2.setPriority(13);
-		task2.setParentTask("parentask1");
+		task2.setParentName("parentask1");
 		task2.setStartDate(edate1);
 		task2.setEndDate(sdate1);
-		task2.setActiveTask(true);
+		task2.setStatus(true);
 		when(tservice.getTaskById(task1.getTaskId())).thenReturn(task1);
 		when(tservice.updateTask(task2)).thenReturn(task2);
 		mockMvc.perform(put("/api/task/update/{id}", task1.getTaskId()).contentType(MediaType.APPLICATION_JSON)
@@ -187,19 +189,19 @@ public class UTTaskController {
 		Task task1 = new Task();
 		Task task2 = new Task();
 		task1.setTaskId(1);
-		task1.setTask("Task1");
+		task1.setTaskName("Task1");
 		task1.setPriority(12);
-		task1.setParentTask("parentask1");
+		task1.setParentName("parentask1");
 		task1.setStartDate(edate1);
 		task1.setEndDate(sdate1);
-		task1.setActiveTask(false);
+		task1.setStatus(false);
 		task2.setTaskId(1);
-		task2.setTask("Task1");
+		task2.setTaskName("Task1");
 		task2.setPriority(12);
-		task2.setParentTask("parentask1");
+		task2.setParentName("parentask1");
 		task2.setStartDate(edate1);
 		task2.setEndDate(sdate1);
-		task2.setActiveTask(true);
+		task2.setStatus(true);
 		when(tservice.getTaskById(task1.getTaskId())).thenReturn(task1);
 		when(tservice.updateTask(task2)).thenReturn(task2);
 		mockMvc.perform(put("/api/task/endtask/{id}", task1.getTaskId()).contentType(MediaType.APPLICATION_JSON)

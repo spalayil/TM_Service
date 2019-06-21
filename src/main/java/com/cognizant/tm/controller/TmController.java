@@ -1,4 +1,4 @@
-package com.iiht.taskmanager.controller;
+package com.cognizant.tm.controller;
 
 import java.util.List;
 
@@ -15,28 +15,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iiht.taskmanager.model.Task;
-import com.iiht.taskmanager.service.TaskService;
+import com.cognizant.tm.model.Task;
+import com.cognizant.tm.service.TaskService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
-public class TaskController {
+public class TmController {
 
 	@Autowired
 	private TaskService taskService;
 
-	@PostMapping("/task/create")
+	@PostMapping("/task/addTask")
 	public ResponseEntity<Object> addTask(@RequestBody Task task) {
-		if(task==null || task.getStartDate()==null || task.getEndDate()==null )
-		{
+		System.out.println("************123"+task.toString());
+		if (task == null || task.getStartDate() == null || task.getEndDate() == null) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		}else {
-		
-		taskService.addTask(task);
-		     return  new ResponseEntity<Object>(task, HttpStatus.CREATED);
+		} else {
+			System.out.println("************"+task.toString());
+			taskService.addTask(task);
+			return new ResponseEntity<Object>(task, HttpStatus.CREATED);
+		}
+
 	}
 
+	@DeleteMapping("/task/deletetask/{id}")
+	public ResponseEntity<Object> deleteTask(@PathVariable("id") long id) {
+		taskService.deleteTask(id);
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
 	@GetMapping("/task")
@@ -49,29 +55,24 @@ public class TaskController {
 	public ResponseEntity<Object> updateTask(@PathVariable("id") long id, @RequestBody Task task) {
 		Task t = taskService.getTaskById(id);
 		t.setTaskId(task.getTaskId());
-		t.setTask(task.getTask());
+		t.setTaskName(task.getTaskName());
 		t.setPriority(task.getPriority());
-		t.setParentTask(task.getParentTask());
+		t.setParentName(task.getParentName());
 		t.setStartDate(task.getStartDate());
 		t.setEndDate(task.getEndDate());
 		taskService.updateTask(t);
 		return new ResponseEntity<Object>(task, HttpStatus.OK);
 
 	}
-	
+
 	@PutMapping("/task/endtask/{id}")
 	public ResponseEntity<Object> endTask(@PathVariable("id") long id) {
-		Task tk = taskService.getTaskById(id);		
-		tk.setActiveTask(true);
+		System.out.println("************id"+id);
+		Task tk = taskService.getTaskById(id);
+		System.out.println("************123"+tk.toString());
+		tk.setStatus(false);
 		taskService.updateTask(tk);
 		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-	
-	
-	@DeleteMapping("/task/deletetask/{id}")
-	public ResponseEntity<Object> deleteTask(@PathVariable("id") long id) {
-		taskService.deleteTask(id);
-		return new ResponseEntity<Object>( HttpStatus.OK);
 	}
 
 }

@@ -1,12 +1,14 @@
-package com.iiht.taskmanager.service;
+package com.cognizant.tm.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iiht.taskmanager.model.Task;
-import com.iiht.taskmanager.repository.TaskRepository;
+import com.cognizant.tm.model.Task;
+import com.cognizant.tm.repository.TaskRepository;
+
+
 
 @Service
 public class TaskServiceImpl implements TaskService  {
